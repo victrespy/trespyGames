@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% set hide_navbar = true %}
+
+{% block title %}Entrar - trespyGames{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col items-center justify-center min-h-[70vh]">
+
+        <div class="mb-10 text-center">
+            <a href="{{ path('app_home') }}" class="text-5xl font-black tracking-tighter italic">
+                <span class="text-custom-red uppercase text-6xl">trespy</span><span class="text-custom-negro">Games</span>
+            </a>
+            <div class="h-1.5 w-24 bg-custom-red mx-auto mt-2"></div>
+        </div>
+
+        <form method="post" class="bg-white/50 p-8 rounded border-2 border-custom-red shadow-[8px_8px_0px_0px_rgba(103,10,21,1)] w-full max-w-sm">
+            {% if error %}
+                <div class="bg-red-100 border-l-4 border-custom-red text-custom-red p-3 mb-6 text-sm font-bold">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <h1 class="text-3xl font-black text-custom-negro mb-8 text-center uppercase tracking-tighter italic">Identifícate</h1>
+
+            <div class="space-y-6">
+                <div>
+                    <label for="inputUsername" class="block text-xs font-black text-custom-red uppercase tracking-widest mb-2">Nickname</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                           class="w-full bg-custom-crema border-2 border-custom-negro rounded-none px-4 py-2 text-custom-negro focus:outline-none focus:border-custom-red transition"
+                           autocomplete="username" required autofocus>
+                </div>
+
+                <div>
+                    <label for="inputPassword" class="block text-xs font-black text-custom-red uppercase tracking-widest mb-2">Contraseña</label>
+                    <input type="password" name="password" id="inputPassword"
+                           class="w-full bg-custom-crema border-2 border-custom-negro rounded-none px-4 py-2 text-custom-negro focus:outline-none focus:border-custom-red transition"
+                           autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="flex items-center">
+                    <input type="checkbox" name="_remember_me" id="_remember_me" class="w-4 h-4 border-2 border-custom-negro text-custom-red focus:ring-0">
+                    <label for="_remember_me" class="ml-2 text-xs font-bold text-custom-negro uppercase cursor-pointer">Recordarme</label>
+                </div>
+
+                <button class="w-full bg-custom-red hover:bg-custom-negro text-custom-crema font-black py-3 px-4 rounded-none transition-colors uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]" type="submit">
+                    Entrar
+                </button>
+                <p class="mt-8 text-center text-[10px] font-bold text-custom-negro uppercase tracking-widest">
+                    ¿No tienes cuenta?
+                    <a href="{{ path('app_register') }}" class="text-custom-red underline hover:text-custom-negro transition-colors">
+                        Registrate aquí
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+{% endblock %}

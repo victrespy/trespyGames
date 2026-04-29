@@ -1,24 +1,100 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}trespyGames{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🎮</text></svg>">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        <style>
+            /* Definición de la paleta exacta */
+            :root {
+                --crema: #F8EEDF;
+                --dorado: #E8C999;
+                --granate: #670A15;
+                --negro: #000000;
+            }
+            .bg-custom-crema { background-color: var(--crema); }
+            .bg-custom-negro { background-color: var(--negro); }
+            .bg-custom-red { background-color: var(--granate); }
+            .bg-custom-gold { background-color: var(--dorado); }
+            .text-custom-negro { color: var(--negro); }
+            .text-custom-crema { color: var(--crema); }
+            .text-custom-gold { color: var(--dorado); }
+            .text-custom-red { color: var(--granate); }
+            .border-custom-red { border-color: var(--granate); }
+        </style>
+    {% endblock %}
 
-        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphpHotReload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+<body class="bg-custom-crema text-custom-negro min-h-screen flex flex-col font-sans">
+{% if hide_navbar is not defined or not hide_navbar %}
+    {# NAVBAR: Se mantiene oscuro #}
+    <nav class="bg-custom-negro border-b-2 border-custom-red sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                {# Logo #}
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ path('app_home') }}" class="text-2xl font-extrabold tracking-tighter hover:opacity-80 transition-opacity italic">
+                        <span class="text-custom-red uppercase">trespy</span><span class="text-custom-crema">Games</span>
+                    </a>
+                </div>
+
+                {# Enlaces de Sesión #}
+                <div class="flex items-center gap-6">
+                    {% if app.user %}
+                        <div class="hidden md:flex flex-col items-end leading-none">
+                            {# Cambiamos text-custom-red por text-custom-gold #}
+                            <span class="text-[10px] text-custom-gold uppercase font-black tracking-widest opacity-80">Jugador</span>
+                            <span class="text-sm text-custom-crema font-bold">{{ app.user.userIdentifier }}</span>
+                        </div>
+
+                        {# Si el usuario tiene el rol de admin, le mostramos el enlace #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('admin') }}" class="bg-custom-gold text-custom-red hover:bg-custom-red px-4 py-1.5 rounded font-black text-xs transition-all uppercase tracking-tighter">
+                                Panel Admin
+                            </a>
+                        {% endif %}
+
+                        <a href="{{ path('app_logout') }}"
+                           class="border-2 border-custom-red bg-custom-red text-custom-crema hover:bg-custom-red px-4 py-1.5 rounded font-black text-xs transition-all uppercase tracking-tighter">
+                            Salir
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}"
+                           class="text-custom-crema hover:text-custom-red text-sm font-bold uppercase transition">
+                            Entrar
+                        </a>
+                        <a href="{{ path('app_register') }}"
+                           class="bg-custom-red hover:bg-red-800 text-custom-crema px-5 py-2 rounded shadow-lg font-black text-sm transition-all uppercase">
+                            Registro
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endif %}
+
+{# CONTENIDO PRINCIPAL: Fondo Crema #}
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {% block body %}{% endblock %}
+</main>
+
+{# FOOTER: Se mantiene oscuro #}
+<footer class="bg-custom-negro border-t-2 border-custom-red py-8">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-custom-crema/40 text-[10px] uppercase font-bold tracking-[0.4em]">
+            &copy; {{ "now"|date("Y") }} <span class="text-custom-red">trespyGames</span> | High Score System
+        </p>
+    </div>
+</footer>
+
+</body>
 </html>

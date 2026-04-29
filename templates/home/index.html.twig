@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}trespyGames - Home{% endblock %}
+
+{% block body %}
+    <div class="text-center py-8">
+        <h1 class="text-6xl md:text-8xl font-black text-custom-negro mb-4 tracking-tighter uppercase italic drop-shadow-sm">
+            ¡Bienvenido a <span class="text-custom-red">trespy</span>Games!
+        </h1>
+
+        <div class="h-1 w-32 bg-custom-red mx-auto mb-8"></div>
+
+        <p class="text-lg text-custom-negro font-bold max-w-2xl mx-auto mb-12 uppercase tracking-wide">
+            Demuestra tu habilidad. Tus récords se escriben con sangre y bits.
+        </p>
+
+        {% if not app.user %}
+            <div class="flex flex-col items-center gap-4">
+                <a href="{{ path('app_register') }}" class="bg-custom-red hover:bg-custom-negro text-custom-crema px-10 py-5 rounded-none font-black text-xl transition-all uppercase tracking-tighter shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[4px] active:translate-y-[4px]">
+                    Únete al Club
+                </a>
+                <p class="text-xs font-bold text-custom-red mt-4 uppercase tracking-[0.2em]">Registro gratuito para nuevos jugadores</p>
+            </div>
+        {% else %}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-5xl mx-auto">
+                {# Tarjeta de Juego #}
+                <div class="bg-custom-crema border-4 border-custom-negro p-8 rounded-none hover:border-custom-red transition-colors group relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    <div class="text-5xl mb-4 grayscale group-hover:grayscale-0 transition-all">🕹️</div>
+                    <h3 class="text-2xl font-black text-custom-negro mb-2 uppercase italic tracking-tighter">Próximo Reto</h3>
+                    <p class="text-custom-red font-bold text-xs mb-6 uppercase tracking-widest">Cargando datos...</p>
+                    <div class="bg-custom-negro text-custom-crema py-2 px-4 text-xs font-black uppercase inline-block">
+                        Disponible Pronto
+                    </div>
+                </div>
+
+                {# Slot Vacío decorativo #}
+                <div class="border-4 border-dashed border-custom-red/30 p-8 flex items-center justify-center">
+                    <span class="text-custom-red/30 font-black uppercase tracking-widest rotate-12">Coming Soon</span>
+                </div>
+
+                <div class="border-4 border-dashed border-custom-red/30 p-8 flex items-center justify-center">
+                    <span class="text-custom-red/30 font-black uppercase tracking-widest -rotate-12 text-center leading-none">Más<br>Minijuegos</span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

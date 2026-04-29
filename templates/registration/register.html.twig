@@ -1,0 +1,63 @@
+{# templates/registration/register.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% set hide_navbar = true %}
+
+{% block title %}Registro - trespyGames{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col items-center justify-center min-h-[70vh]">
+
+        <div class="mb-10 text-center">
+            <a href="{{ path('app_home') }}" class="text-5xl font-black tracking-tighter italic">
+                <span class="text-custom-red uppercase text-6xl">trespy</span><span class="text-custom-negro">Games</span>
+            </a>
+            <div class="h-1.5 w-24 bg-custom-red mx-auto mt-2"></div>
+        </div>
+
+        <div class="bg-white/50 p-8 rounded border-2 border-custom-red shadow-[8px_8px_0px_0px_rgba(103,10,21,1)] w-full max-w-sm">
+            <h1 class="text-3xl font-black text-custom-negro mb-8 text-center uppercase tracking-tighter italic">Nueva Cuenta</h1>
+
+            {% if form_errors(registrationForm) %}
+                <div class="bg-red-100 border-l-4 border-custom-red text-custom-red p-3 mb-6 text-xs font-bold">
+                    {{ form_errors(registrationForm) }}
+                </div>
+            {% endif %}
+
+            {% if form_errors(registrationForm.username) %}
+                <div class="bg-red-100 border-l-4 border-custom-red text-custom-red p-3 mb-4 text-xs font-bold uppercase">
+                    {{ form_errors(registrationForm.username) }}
+                </div>
+            {% endif %}
+
+            {{ form_start(registrationForm, {'attr': {'class': 'space-y-6'}}) }}
+            <div>
+                {# Cambiado de .nickname a .username #}
+                {{ form_label(registrationForm.username, 'Tu Apodo (Username)', {'label_attr': {'class': 'block text-xs font-black text-custom-red uppercase tracking-widest mb-2'}}) }}
+                {{ form_widget(registrationForm.username, {'attr': {'class': 'w-full bg-custom-crema border-2 border-custom-negro rounded-none px-4 py-2 text-custom-negro focus:outline-none focus:border-custom-red transition'}}) }}
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.plainPassword, 'Contraseña', {'label_attr': {'class': 'block text-xs font-black text-custom-red uppercase tracking-widest mb-2'}}) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'w-full bg-custom-crema border-2 border-custom-negro rounded-none px-4 py-2 text-custom-negro focus:outline-none focus:border-custom-red transition'}}) }}
+            </div>
+
+            <div class="flex items-start gap-3 py-2">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'mt-1 w-4 h-4 border-2 border-custom-negro text-custom-red focus:ring-0'}}) }}
+                {{ form_label(registrationForm.agreeTerms, 'Acepto las normas del club', {'label_attr': {'class': 'text-[10px] font-bold text-custom-negro uppercase italic'}}) }}
+            </div>
+
+            <button type="submit" class="w-full bg-custom-red hover:bg-custom-negro text-custom-crema font-black py-3 px-4 rounded-none transition-colors uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+                Registrarme
+            </button>
+            {{ form_end(registrationForm) }}
+            <p class="mt-8 text-center text-[10px] font-bold text-custom-negro uppercase tracking-widest">
+                ¿Ya tienes cuenta?
+                <a href="{{ path('app_login') }}" class="text-custom-red underline hover:text-custom-negro transition-colors">
+                    Inicia sesión
+                </a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
